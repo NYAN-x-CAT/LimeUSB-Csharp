@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimeUSB-Csharp", "LimeUSB-Csharp\LimeUSB-Csharp.csproj", "{94EA43AB-7878-4048-A64E-2B21B3B4366D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94EA43AB-7878-4048-A64E-2B21B3B4366D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94EA43AB-7878-4048-A64E-2B21B3B4366D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94EA43AB-7878-4048-A64E-2B21B3B4366D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94EA43AB-7878-4048-A64E-2B21B3B4366D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4750B11E-3F31-4B97-BB34-ED3AD5ABC922}
+	EndGlobalSection
+EndGlobal
